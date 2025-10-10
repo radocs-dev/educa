@@ -3,7 +3,9 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>{% block title %}Educa{% endblock %}</title>
+    <title>
+      {% block title %}Educa{% endblock %}
+    </title>
     <link href="{% static "css/base.css" %}" rel="stylesheet">
   </head>
   <body>
@@ -11,18 +13,21 @@
       <a href="/" class="logo">Educa</a>
       <ul class="menu">
         {% if request.user.is_authenticated %}
-          <li><a href="{% url "logout" %}">Sign out</a></li>
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="nav-link btn btn-link">Sign out</button>
+          </form>
         {% else %}
-          <li><a href="{% url "login" %}">Sign in</a></li>
+          <li>
+            <a href="{% url "login" %}">Sign in</a>
+          </li>
         {% endif %}
       </ul>
     </div>
     <div id="content">
-      {% block content %}
-      {% endblock %}
+      {% block content %}{% endblock %}
     </div>
-    {% block include_js %}
-    {% endblock %}
+    {% block include_js %}{% endblock %}
     <script>
       document.addEventListener('DOMContentLoaded', (event) => {
         // DOM loaded
